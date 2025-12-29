@@ -3,7 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Navbar = () => {
+interface NavbarProps {
+  onEnquiryClick?: () => void;
+}
+
+const Navbar = ({ onEnquiryClick }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -32,7 +36,7 @@ const Navbar = () => {
     { name: "Services", href: "#services" },
     { name: "Work", href: "#work" },
     { name: "Process", href: "#process" },
-    { name: "FAQ", href: "#faq" },
+    { name: "Contact Us", href: "#contact" },
   ];
 
   return (
@@ -81,7 +85,11 @@ const Navbar = () => {
             transition={{ delay: 0.5 }}
             className="hidden md:block"
           >
-            <Button variant="hero" size="default">
+            <Button
+              variant="hero"
+              size="default"
+              onClick={onEnquiryClick}
+            >
               Get Started
             </Button>
           </motion.div>
@@ -119,7 +127,12 @@ const Navbar = () => {
                       {link.name}
                     </motion.button>
                   ))}
-                  <Button variant="hero" size="lg" className="mt-4">
+                  <Button
+                    variant="hero"
+                    size="lg"
+                    className="mt-4"
+                    onClick={onEnquiryClick}
+                  >
                     Get Started
                   </Button>
                 </div>

@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
+import EnquiryModal from "./EnquiryModal";
 
 const Footer = () => {
+  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+
   const links = {
     company: [
       { name: "About Us", href: "#about" },
@@ -11,16 +15,9 @@ const Footer = () => {
       { name: "Portfolio", href: "#work" },
       { name: "Process", href: "#process" },
     ],
-    support: [
-      { name: "FAQ", href: "#faq" },
-      { name: "Contact", href: "#contact" },
-      { name: "Privacy Policy", href: "#" },
-      { name: "Terms of Service", href: "#" },
-    ],
   };
 
   const socialLinks = [
-    { name: "Twitter", href: "#" },
     { name: "LinkedIn", href: "#" },
     { name: "Instagram", href: "#" },
     { name: "GitHub", href: "#" },
@@ -53,7 +50,12 @@ const Footer = () => {
                   Let's work together to create something amazing. Get in touch with
                   us today and let's discuss your next big idea.
                 </p>
-                <Button variant="hero" size="xl" className="group">
+                <Button
+                  variant="hero"
+                  size="xl"
+                  className="group"
+                  onClick={() => setIsEnquiryOpen(true)}
+                >
                   Get in Touch
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Button>
@@ -76,7 +78,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <span className="font-display font-bold text-xl">
-                  Deza<span className="text-gradient">Codx</span>
+                  Deza<span className="text-primary">C</span>ode<span className="text-accent bg-accent/30 px-1 rounded">X</span>
                 </span>
               </a>
               <p className="text-muted-foreground mb-8 max-w-sm leading-relaxed">
@@ -130,26 +132,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Support Links */}
-            <div>
-              <h3 className="font-display font-semibold text-foreground mb-6">
-                Support
-              </h3>
-              <ul className="space-y-4">
-                {links.support.map((link) => (
-                  <li key={link.name}>
-                    <motion.a
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                      whileHover={{ x: 5 }}
-                    >
-                      {link.name}
-                    </motion.a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             {/* Social Links */}
             <div>
               <h3 className="font-display font-semibold text-foreground mb-6">
@@ -177,6 +159,13 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* Enquiry Modal */}
+      <EnquiryModal
+        isOpen={isEnquiryOpen}
+        onClose={() => setIsEnquiryOpen(false)}
+        title="Project Enquiry"
+      />
     </footer>
   );
 };

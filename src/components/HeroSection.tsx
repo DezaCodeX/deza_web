@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import TextReveal from "./TextReveal";
-import AnimatedCounter from "./AnimatedCounter";
+import EnquiryModal from "./EnquiryModal";
 
 const HeroSection = () => {
+  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   return (
     <section
       id="home"
@@ -70,16 +72,14 @@ const HeroSection = () => {
         <div className="max-w-5xl mx-auto text-center">
           {/* Main Heading */}
           <div className="mb-8">
-            <TextReveal
-              text="DEZA CODEX"
+            <motion.h1 
               className="hero-text text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-foreground"
-              delay={0.2}
-            />
-            <TextReveal
-              text="WEB PRESENCE"
-              className="hero-text text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-gradient-animated"
-              delay={0.6}
-            />
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-accent bg-accent/30 px-2 rounded font-bold">X</span>
+            </motion.h1>
           </div>
 
           {/* Ghost Text Behind */}
@@ -90,7 +90,7 @@ const HeroSection = () => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block"
           >
             <span className="hero-text text-[12rem] text-foreground whitespace-nowrap">
-              DEZACODEX
+              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-accent bg-accent/30 px-2 rounded font-bold">X</span>
             </span>
           </motion.div>
 
@@ -113,37 +113,18 @@ const HeroSection = () => {
             transition={{ delay: 1.2, duration: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
           >
-            <Button variant="hero" size="xl" className="group">
+            <Button
+              variant="hero"
+              size="xl"
+              className="group"
+              onClick={() => setIsEnquiryOpen(true)}
+            >
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button variant="heroOutline" size="xl">
               View Our Work
             </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4, duration: 0.8 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
-          >
-            {[
-              { value: 7, suffix: "+", label: "Projects Completed" },
-              { value: 200, suffix: "+", label: "Happy Clients" },
-              { value: 3, suffix: "+", label: "Years Experience" },
-              { value: 100, suffix: "%", label: "Client Satisfaction" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-display font-bold text-gradient">
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                </div>
-                <div className="text-sm text-muted-foreground mt-2">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
           </motion.div>
         </div>
       </div>
@@ -167,6 +148,13 @@ const HeroSection = () => {
           />
         </motion.div>
       </motion.div>
+
+      {/* Enquiry Modal */}
+      <EnquiryModal
+        isOpen={isEnquiryOpen}
+        onClose={() => setIsEnquiryOpen(false)}
+        title="Student Project Enquiry"
+      />
     </section>
   );
 };

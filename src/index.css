@@ -46,8 +46,8 @@
     --shadow-glow-sm: 0 0 40px hsl(217 91% 60% / 0.3);
     --shadow-card: 0 8px 40px hsl(0 0% 0% / 0.4);
     
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-display: 'Times New Roman', serif;
+    --font-body: 'Times New Roman', serif;
 
     --sidebar-background: 240 10% 6%;
     --sidebar-foreground: 0 0% 98%;
