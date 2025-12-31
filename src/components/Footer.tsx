@@ -46,7 +46,7 @@ const Footer = () => {
                 <h2 className="section-title text-3xl md:text-4xl lg:text-5xl mb-6">
                   Ready to Start Your <span className="text-gradient">Project?</span>
                 </h2>
-                <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-10">
+                <p className="text-muted-foreground text-2xl max-w-2xl mx-auto mb-10">
                   Let's work together to create something amazing. Get in touch with
                   us today and let's discuss your next big idea.
                 </p>
@@ -78,7 +78,7 @@ const Footer = () => {
                   </div>
                 </div>
                 <span className="font-display font-bold text-xl">
-                  Deza<span className="text-primary">C</span>ode<span className="text-accent bg-accent/30 px-1 rounded">X</span>
+                  Deza<span className="text-primary">C</span>ode<span className="text-foreground">X</span>
                 </span>
               </a>
               <p className="text-muted-foreground mb-8 max-w-sm leading-relaxed">

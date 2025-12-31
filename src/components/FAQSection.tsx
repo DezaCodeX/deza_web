@@ -25,7 +25,7 @@ const FAQSection = () => {
               </h2>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <p className="text-muted-foreground text-lg mb-10">
+              <p className="text-muted-foreground text-2xl mb-10">
                 Have a project in mind? We'd love to hear from you. Get in touch
                 with us and let's discuss how we can help bring your ideas to life.
               </p>
@@ -48,7 +48,7 @@ const FAQSection = () => {
                     <h3 className="font-display font-bold text-xl text-foreground mb-3">
                       Email
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-base\">
                       hello@dezacodex.in
                     </p>
                   </div>
@@ -70,7 +70,7 @@ const FAQSection = () => {
                     <h3 className="font-display font-bold text-xl text-foreground mb-3">
                       Phone
                     </h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground text-base\">
                       +91 98765 43210
                     </p>
                   </div>

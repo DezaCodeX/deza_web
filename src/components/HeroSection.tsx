@@ -1,12 +1,9 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import TextReveal from "./TextReveal";
-import EnquiryModal from "./EnquiryModal";
 
 const HeroSection = () => {
-  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   return (
     <section
       id="home"
@@ -78,7 +75,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
             >
-              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-accent bg-accent/30 px-2 rounded font-bold">X</span>
+              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-foreground font-bold">X</span>
             </motion.h1>
           </div>
 
@@ -90,7 +87,7 @@ const HeroSection = () => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none hidden lg:block"
           >
             <span className="hero-text text-[12rem] text-foreground whitespace-nowrap">
-              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-accent bg-accent/30 px-2 rounded font-bold">X</span>
+              <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-foreground font-bold">X</span>
             </span>
           </motion.div>
 
@@ -117,12 +114,18 @@ const HeroSection = () => {
               variant="hero"
               size="xl"
               className="group"
-              onClick={() => setIsEnquiryOpen(true)}
+              onClick={() => {
+                const contactSection = document.getElementById("contact");
+                contactSection?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="heroOutline" size="xl">
+            <Button variant="heroOutline" size="xl" onClick={() => {
+              const workSection = document.getElementById("work");
+              workSection?.scrollIntoView({ behavior: "smooth" });
+            }}>
               View Our Work
             </Button>
           </motion.div>
@@ -148,13 +151,6 @@ const HeroSection = () => {
           />
         </motion.div>
       </motion.div>
-
-      {/* Enquiry Modal */}
-      <EnquiryModal
-        isOpen={isEnquiryOpen}
-        onClose={() => setIsEnquiryOpen(false)}
-        title="Student Project Enquiry"
-      />
     </section>
   );
 };

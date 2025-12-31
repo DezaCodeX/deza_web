@@ -96,7 +96,7 @@ const Navbar = ({ onEnquiryClick }: NavbarProps) => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-foreground p-2 hover:bg-secondary rounded-lg transition-colors"
+            className="md:hidden text-foreground p-2 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}

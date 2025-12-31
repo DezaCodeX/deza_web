@@ -117,7 +117,7 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
                 </div>
                 <button
                   onClick={onClose}
-                  className="text-muted-foreground hover:text-foreground transition-colors p-2 hover:bg-secondary rounded-lg"
+                  className="text-muted-foreground hover:text-foreground transition-colors p-2"
                 >
                   <X size={20} />
                 </button>
