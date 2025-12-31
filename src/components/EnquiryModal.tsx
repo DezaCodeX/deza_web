@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { X, CheckCircle, Loader } from "lucide-react";
@@ -24,8 +24,15 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Initialize EmailJS with public key from env
-  emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  // Initialize EmailJS once with public key from env
+  useEffect(() => {
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    } else {
+      console.warn('VITE_EMAILJS_PUBLIC_KEY is not set');
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -54,7 +61,9 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
 
       if (insertError) {
         console.error('Supabase insert error:', insertError);
-        throw new Error('Failed to save enquiry.');
+        throw new Error(`Failed to save enquiry: ${insertError.message || JSON.stringify(insertError)}`);
+      } else {
+        console.log('Supabase insert result:', insertData);
       }
 
       // Send email via EmailJS
@@ -63,7 +72,13 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
         const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-        await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
+        try {
+          const emailResult = await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
+          console.log('EmailJS send result:', emailResult);
+        } catch (emailErr) {
+          console.error('EmailJS error:', emailErr);
+          throw new Error(`Email send failed: ${emailErr instanceof Error ? emailErr.message : String(emailErr)}`);
+        }
       }
 
       console.log("Enquiry submitted:", formData);
@@ -83,7 +98,8 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
       }, 2000);
     } catch (error) {
       console.error('Submission error:', error);
-      alert('Failed to submit enquiry. Please try again.');
+      const msg = error instanceof Error ? error.message : String(error);
+      alert('Failed to submit enquiry. ' + msg);
     } finally {
       setIsSubmitting(false);
     }
