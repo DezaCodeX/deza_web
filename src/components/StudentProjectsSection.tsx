@@ -83,7 +83,7 @@ const StudentProjectsSection = ({ onEnquiryClick }: StudentProjectsSectionProps)
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-2xl">
               Get inspired with these project ideas perfect for your final year. From beginner-friendly to advanced,
               find the project that matches your skill level and interests.
             </p>
@@ -125,7 +125,7 @@ const StudentProjectsSection = ({ onEnquiryClick }: StudentProjectsSectionProps)
                   </h3>
 
                   {/* Description */}
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-muted-foreground text-base mb-6 leading-relaxed\">
                     {project.description}
                   </p>
 
@@ -169,7 +169,7 @@ const StudentProjectsSection = ({ onEnquiryClick }: StudentProjectsSectionProps)
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-muted-foreground text-lg mb-6">
+            <p className="text-muted-foreground text-2xl mb-6">
               Have a unique project idea? We can help you build it!
             </p>
             <Button

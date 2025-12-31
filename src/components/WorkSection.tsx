@@ -87,11 +87,11 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
             <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">
-              Some of Our <span className="text-gradient">Best Work</span>
+              <span className="text-gradient">Curated Creations</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-2xl">
               Take a look at some of the projects we've delivered for our clients.
               Each project is crafted with attention to detail and excellence.
             </p>
@@ -145,7 +145,7 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
 
                   {/* Content */}
                   <div className="p-6">
-                    <span className="text-primary text-sm font-medium tracking-wide">
+                    <span className="text-primary text-base font-medium tracking-wide">
                       {project.category}
                     </span>
                     <h3 className="text-xl font-display font-bold text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">
@@ -174,13 +174,13 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
               <div className="relative p-8 md:p-12">
                 {/* Header */}
                 <div className="mb-8">
-                  <span className="text-accent text-sm font-semibold tracking-widest uppercase">
+                  <span className="text-accent text-base font-semibold tracking-widest uppercase">
                     Student Projects
                   </span>
                   <h3 className="text-3xl md:text-4xl font-display font-bold text-foreground mt-2 mb-3">
                     Ready-to-Build <span className="text-gradient">Project Ideas</span>
                   </h3>
-                  <p className="text-muted-foreground text-lg">
+                  <p className="text-muted-foreground text-2xl">
                     Industry-ready final year project ideas perfect for learning and submission. Get expert guidance on implementing these projects.
                   </p>
                 </div>

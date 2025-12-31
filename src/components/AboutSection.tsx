@@ -45,8 +45,8 @@ const AboutSection = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.2}>
-              <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
-                At <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-accent bg-accent/30 px-1 rounded font-bold">X</span>, we believe every business deserves a powerful online
+              <p className="text-muted-foreground text-2xl mb-10 leading-relaxed">
+                At <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-foreground font-bold">X</span>, we believe every business deserves a powerful online
                 presence. Our team of passionate developers and designers work
                 together to create digital experiences that not only look stunning
                 but also perform exceptionally.
@@ -65,7 +65,7 @@ const AboutSection = () => {
                       <h3 className="font-display font-semibold text-foreground mb-1">
                         {feature.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-base text-muted-foreground">
                         {feature.description}
                       </p>
                     </div>

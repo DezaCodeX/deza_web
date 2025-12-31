@@ -57,7 +57,7 @@ const ProcessSection = () => {
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-2xl">
               Our proven process ensures every project is delivered with excellence,
               on time, and exceeds expectations.
             </p>
@@ -98,7 +98,7 @@ const ProcessSection = () => {
                     <h3 className="text-xl font-display font-bold text-foreground mb-3">
                       {step.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-muted-foreground text-base leading-relaxed">
                       {step.description}
                     </p>
 

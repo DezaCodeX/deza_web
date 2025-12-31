@@ -54,7 +54,7 @@ const ServicesSection = () => {
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-2xl">
               We offer comprehensive digital solutions tailored to your unique needs,
               helping you achieve your business goals.
             </p>
@@ -83,7 +83,7 @@ const ServicesSection = () => {
                   <h3 className="text-2xl font-display font-bold text-foreground mb-4">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-muted-foreground text-lg mb-6 leading-relaxed">
                     {service.description}
                   </p>
 
@@ -92,7 +92,7 @@ const ServicesSection = () => {
                     {service.features.map((feature, idx) => (
                       <motion.li
                         key={idx}
-                        className="text-sm text-muted-foreground flex items-center gap-3"
+                        className="text-base text-muted-foreground flex items-center gap-3"
                         initial={{ opacity: 0, x: -10 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}

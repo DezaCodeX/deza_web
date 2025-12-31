@@ -29,7 +29,7 @@ const Index = () => {
       <EnquiryModal
         isOpen={isEnquiryOpen}
         onClose={() => setIsEnquiryOpen(false)}
-        title="Student Project Enquiry"
+        title="Enquiry"
       />
     </div>
   );

@@ -7,10 +7,9 @@ build/
 
 # env files
 .env
-.venv
 .env.local
 .env.production
-.bin
+
 # logs
 npm-debug.log*
 yarn-debug.log*
