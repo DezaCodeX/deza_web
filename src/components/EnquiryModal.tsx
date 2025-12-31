@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { X, CheckCircle, Loader } from "lucide-react";
+import emailjs from '@emailjs/browser';
+import { supabase } from '@/lib/supabaseClient';
 
 interface EnquiryModalProps {
   isOpen: boolean;
@@ -20,6 +22,11 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     message: "",
   });
 
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Initialize EmailJS with public key from env
+  emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -32,11 +39,34 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.projectTitle || !formData.message) {
+      alert("Please fill all fields.");
+      setIsSubmitting(false);
+      return;
+    }
 
-      console.log("Form submitted:", formData);
+    try {
+      // Insert to Supabase
+      const { data: insertData, error: insertError } = await supabase
+        .from('enquiries')
+        .insert([formData]);
+
+      if (insertError) {
+        console.error('Supabase insert error:', insertError);
+        throw new Error('Failed to save enquiry.');
+      }
+
+      // Send email via EmailJS
+      if (formRef.current) {
+        const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+        const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+        const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+        await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
+      }
+
+      console.log("Enquiry submitted:", formData);
       setSubmitStatus("success");
 
       // Reset after 2 seconds
@@ -51,6 +81,9 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
         setSubmitStatus("idle");
         onClose();
       }, 2000);
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Failed to submit enquiry. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -124,7 +157,7 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
               </div>
 
               {/* Form */}
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <form ref={formRef} onSubmit={handleSubmit} className="p-6 space-y-4">
                 {/* Name */}
                 <div>
                   <label className="block text-sm font-semibold text-foreground mb-1.5">
