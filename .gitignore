@@ -6,9 +6,9 @@ dist/
 build/
 
 # env files
-.env
-.env.local
-.env.production
+#.env
+#.env.local
+#.env.production
 
 # logs
 npm-debug.log*
