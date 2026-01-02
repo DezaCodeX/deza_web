@@ -15,13 +15,25 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
 
   useEffect(() => {
     async function fetchProjects() {
-      const { data, error } = await supabase.from('work').select('*');
-      if (error) {
-        console.error('Error fetching works:', error);
-      } else {
-        setClientProjects(data || []);
+      if (!supabase) {
+        console.log('Supabase not available, skipping fetch');
+        setClientProjects([]);
+        setLoading(false);
+        return;
       }
-      setLoading(false);
+
+      try {
+        const { data, error } = await supabase.from('work').select('*');
+        if (error) {
+          console.error('Error fetching works:', error);
+        } else {
+          setClientProjects(data || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchProjects();
   }, []);

@@ -2,20 +2,25 @@ import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import EnquiryModal from "./EnquiryModal";
 import { supabase } from "@/lib/supabaseClient";
 
 const Footer = () => {
-  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [contactInfo, setContactInfo] = useState({
     email: "hello@dezacodex.in",
     phone: "+91 98765 43210",
     location: "India"
   });
 
+  const [showContactPopup, setShowContactPopup] = useState(false);
+
   useEffect(() => {
     async function fetchContact() {
+      if (!supabase) {
+        console.log('Supabase not available, using default contact info');
+        return;
+      }
       const { data, error } = await supabase
         .from('contact')
         .select('email, phone, location')
@@ -80,7 +85,7 @@ const Footer = () => {
                   variant="hero"
                   size="xl"
                   className="group"
-                  onClick={() => setIsEnquiryOpen(true)}
+                  onClick={() => setShowContactPopup(true)}
                 >
                   Get in Touch
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -186,12 +191,65 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Enquiry Modal */}
-      <EnquiryModal
-        isOpen={isEnquiryOpen}
-        onClose={() => setIsEnquiryOpen(false)}
-        title="Project Enquiry"
-      />
+      {/* Contact Popup */}
+      <AnimatePresence>
+        {showContactPopup && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowContactPopup(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            />
+            {/* Popup */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            >
+              <motion.div
+                className="bg-card border border-border rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-bold text-foreground mb-4">Get in Touch</h3>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+                    <motion.a
+                      href={`mailto:${contactInfo.email}`}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
+                      <Mail className="w-5 h-5" />
+                      {contactInfo.email}
+                    </motion.a>
+                    <motion.a
+                      href={`tel:${contactInfo.phone}`}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
+                      <Phone className="w-5 h-5" />
+                      {contactInfo.phone}
+                    </motion.a>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowContactPopup(false)}
+                    className="w-full"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
     </footer>
   );
 };

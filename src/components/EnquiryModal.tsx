@@ -18,7 +18,6 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     name: "",
     email: "",
     phone: "",
-    projectTitle: "",
     message: "",
   });
 
@@ -47,8 +46,14 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     setIsSubmitting(true);
 
     // Basic validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.projectTitle || !formData.message) {
-      alert("Please fill all fields.");
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedPhone = formData.phone.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedMessage) {
+      console.log('Validation failed - missing fields after trim:', { trimmedName: !!trimmedName, trimmedEmail: !!trimmedEmail, trimmedPhone: !!trimmedPhone, trimmedMessage: !!trimmedMessage });
+      alert("Please fill all fields correctly.");
       setIsSubmitting(false);
       return;
     }
@@ -90,7 +95,6 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
           name: "",
           email: "",
           phone: "",
-          projectTitle: "",
           message: "",
         });
         setSubmitStatus("idle");
@@ -216,24 +220,7 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    required
                     placeholder="+91 XXXXX XXXXX"
-                    className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
-                  />
-                </div>
-
-                {/* Project Title */}
-                <div>
-                  <label className="block text-sm font-semibold text-foreground mb-1.5">
-                    Project Title *
-                  </label>
-                  <input
-                    type="text"
-                    name="projectTitle"
-                    value={formData.projectTitle}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your project name"
                     className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
                   />
                 </div>
@@ -247,7 +234,6 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     placeholder="Describe your project in a few lines..."
                     rows={3}
                     className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none text-sm"
