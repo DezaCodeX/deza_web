@@ -16,7 +16,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar onEnquiryClick={() => setIsEnquiryOpen(true)} />
       <main>
-        <HeroSection />
+        <HeroSection onEnquiryClick={() => setIsEnquiryOpen(true)} />
         <AboutSection />
         <ServicesSection />
         <WorkSection onEnquiryClick={() => setIsEnquiryOpen(true)} />

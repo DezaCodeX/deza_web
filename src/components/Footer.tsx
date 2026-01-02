@@ -1,12 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import EnquiryModal from "./EnquiryModal";
+import { supabase } from "@/lib/supabaseClient";
+
+import logo from "../../../deza.png";
 
 const Footer = () => {
-  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    email: "hello@dezacodex.in",
+    phone: "+91 98765 43210",
+    location: "India"
+  });
+
+  const [showContactPopup, setShowContactPopup] = useState(false);
+
+  useEffect(() => {
+    async function fetchContact() {
+      if (!supabase) {
+        console.log('Supabase not available, using default contact info');
+        return;
+      }
+      const { data, error } = await supabase
+        .from('contact')
+        .select('email, phone, location')
+        .single();  // Assuming one contact row
+
+      if (error) {
+        console.error('Error fetching contact info:', error);
+      } else if (data) {
+        setContactInfo({
+          email: data.email || contactInfo.email,
+          phone: data.phone || contactInfo.phone,
+          location: data.location || contactInfo.location
+        });
+      }
+    }
+    fetchContact();
+  }, []);
 
   const links = {
     company: [
@@ -54,7 +87,7 @@ const Footer = () => {
                   variant="hero"
                   size="xl"
                   className="group"
-                  onClick={() => setIsEnquiryOpen(true)}
+                  onClick={() => setShowContactPopup(true)}
                 >
                   Get in Touch
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -73,8 +106,8 @@ const Footer = () => {
             <div className="col-span-2 md:col-span-4 lg:col-span-2">
               <a href="#home" className="flex items-center gap-3 mb-6 group">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-                    <span className="text-background font-display font-bold text-xl">DC</span>
+                  <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                    <img src={logo} alt="DezaCodex Logo" className="w-full h-full rounded-lg object-contain" />
                   </div>
                 </div>
                 <span className="font-display font-bold text-xl">
@@ -87,27 +120,27 @@ const Footer = () => {
               </p>
               <div className="space-y-4">
                 <motion.a
-                  href="mailto:hello@dezacodex.in"
+                  href={`mailto:${contactInfo.email}`}
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group"
                   whileHover={{ x: 5 }}
                 >
                   <Mail className="w-5 h-5" />
-                  hello@dezacodex.in
+                  {contactInfo.email}
                 </motion.a>
                 <motion.a
-                  href="tel:+919876543210"
+                  href={`tel:${contactInfo.phone}`}
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                   whileHover={{ x: 5 }}
                 >
                   <Phone className="w-5 h-5" />
-                  +91 98765 43210
+                  {contactInfo.phone}
                 </motion.a>
                 <motion.div 
                   className="flex items-center gap-3 text-muted-foreground"
                   whileHover={{ x: 5 }}
                 >
                   <MapPin className="w-5 h-5" />
-                  India
+                  {contactInfo.location}
                 </motion.div>
               </div>
             </div>
@@ -160,12 +193,65 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Enquiry Modal */}
-      <EnquiryModal
-        isOpen={isEnquiryOpen}
-        onClose={() => setIsEnquiryOpen(false)}
-        title="Project Enquiry"
-      />
+      {/* Contact Popup */}
+      <AnimatePresence>
+        {showContactPopup && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowContactPopup(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            />
+            {/* Popup */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            >
+              <motion.div
+                className="bg-card border border-border rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-6 text-center">
+                  <h3 className="text-xl font-bold text-foreground mb-4">Get in Touch</h3>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+                    <motion.a
+                      href={`mailto:${contactInfo.email}`}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
+                      <Mail className="w-5 h-5" />
+                      {contactInfo.email}
+                    </motion.a>
+                    <motion.a
+                      href={`tel:${contactInfo.phone}`}
+                      className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                      whileHover={{ x: 5 }}
+                    >
+                      <Phone className="w-5 h-5" />
+                      {contactInfo.phone}
+                    </motion.a>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowContactPopup(false)}
+                    className="w-full"
+                  >
+                    Close
+                  </Button>
+                </div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
     </footer>
   );
 };

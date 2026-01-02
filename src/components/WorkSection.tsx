@@ -2,42 +2,41 @@ import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 interface WorkSectionProps {
   onEnquiryClick?: () => void;
 }
 
 const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
-  const clientProjects = [
-    {
-      title: "E-Commerce Platform",
-      category: "Web Development",
-      description: "A modern e-commerce solution with seamless checkout and inventory management.",
-      image: "https://images.unsplash.com/photo-1661956602116-aa6865609028?w=800&auto=format&fit=crop&q=60",
-      link: "#",
-    },
-    {
-      title: "SaaS Dashboard",
-      category: "UI/UX Design",
-      description: "Analytics dashboard with real-time data visualization and intuitive navigation.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
-      link: "#",
-    },
-    {
-      title: "Mobile Banking App",
-      category: "App Development",
-      description: "Secure and user-friendly mobile banking experience for modern users.",
-      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&auto=format&fit=crop&q=60",
-      link: "#",
-    },
-    {
-      title: "Healthcare Portal",
-      category: "Web Development",
-      description: "Patient management system with appointment scheduling and telemedicine.",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=60",
-      link: "#",
-    },
-  ];
+  const [clientProjects, setClientProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      if (!supabase) {
+        console.log('Supabase not available, skipping fetch');
+        setClientProjects([]);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase.from('work').select('*');
+        if (error) {
+          console.error('Error fetching works:', error);
+        } else {
+          setClientProjects(data || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProjects();
+  }, []);
 
   const studentProjects = [
     {
@@ -102,63 +101,80 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
         <div className="space-y-8">
           {/* Client Projects Grid */}
           <div className="grid md:grid-cols-2 gap-8">
-            {clientProjects.map((project, index) => (
-              <ScrollReveal 
-                key={index} 
-                delay={0.1 * index}
-                direction={index % 2 === 0 ? "left" : "right"}
-              >
-                <motion.div
-                  className="group relative bg-card rounded-2xl overflow-hidden border border-border"
-                  whileHover={{ y: -5 }}
-                  transition={{ duration: 0.3 }}
+            {loading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <ScrollReveal key={index} delay={0.1 * index}>
+                  <div className="bg-card rounded-2xl overflow-hidden border border-border animate-pulse">
+                    <div className="aspect-video bg-muted" />
+                    <div className="p-6 space-y-3">
+                      <div className="h-4 bg-muted rounded w-3/4" />
+                      <div className="h-6 bg-muted rounded w-1/2" />
+                      <div className="h-3 bg-muted rounded w-full" />
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))
+            ) : (
+              clientProjects.map((project, index) => (
+                <ScrollReveal 
+                  key={project.id || index} 
+                  delay={0.1 * index}
+                  direction={index % 2 === 0 ? "left" : "right"}
                 >
-                  {/* Image */}
-                  <div className="relative aspect-video overflow-hidden">
-                    <motion.img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
-                    
-                    {/* Overlay on Hover */}
-                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    {/* View Project Button */}
-                    <motion.div
-                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={{ scale: 0.8 }}
-                      whileHover={{ scale: 1 }}
-                    >
-                      <a
-                        href={project.link}
-                        className="px-6 py-3 bg-background/90 backdrop-blur-sm rounded-full text-foreground font-semibold flex items-center gap-2 hover:bg-background transition-colors"
+                  <motion.div
+                    className="group relative bg-card rounded-2xl overflow-hidden border border-border"
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-video overflow-hidden">
+                      <motion.img
+                        src={project.image_url}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.6 }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                      
+                      {/* Overlay on Hover */}
+                      <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      
+                      {/* View Project Button */}
+                      <motion.div
+                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={{ scale: 0.8 }}
+                        whileHover={{ scale: 1 }}
                       >
-                        View Project
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    </motion.div>
-                  </div>
+                        <a
+                          href={project.link.includes('://') ? project.link : project.link === '#' ? '#' : `https://${project.link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-6 py-3 bg-background/90 backdrop-blur-sm rounded-full text-foreground font-semibold flex items-center gap-2 hover:bg-background transition-colors"
+                        >
+                          View Project
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      </motion.div>
+                    </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <span className="text-primary text-base font-medium tracking-wide">
-                      {project.category}
-                    </span>
-                    <h3 className="text-xl font-display font-bold text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-muted-foreground">{project.description}</p>
-                  </div>
+                    {/* Content */}
+                    <div className="p-6">
+                      <span className="text-primary text-base font-medium tracking-wide">
+                        {project.category}
+                      </span>
+                      <h3 className="text-xl font-display font-bold text-foreground mt-2 mb-3 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted-foreground">{project.description}</p>
+                    </div>
 
-                  {/* Border Glow on Hover */}
-                  <div className="absolute inset-0 rounded-2xl border-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                </motion.div>
-              </ScrollReveal>
-            ))}
+                    {/* Border Glow on Hover */}
+                    <div className="absolute inset-0 rounded-2xl border-2 border-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  </motion.div>
+                </ScrollReveal>
+              ))
+            )}
           </div>
 
           {/* Student Projects Container - Like SaaS Dashboard */}

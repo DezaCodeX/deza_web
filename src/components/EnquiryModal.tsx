@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { X, CheckCircle, Loader } from "lucide-react";
@@ -18,14 +18,20 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     name: "",
     email: "",
     phone: "",
-    projectTitle: "",
     message: "",
   });
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Initialize EmailJS with public key from env
-  emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  // Initialize EmailJS once with public key from env
+  useEffect(() => {
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    if (publicKey) {
+      emailjs.init(publicKey);
+    } else {
+      console.warn('VITE_EMAILJS_PUBLIC_KEY is not set');
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -40,8 +46,14 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
     setIsSubmitting(true);
 
     // Basic validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.projectTitle || !formData.message) {
-      alert("Please fill all fields.");
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedPhone = formData.phone.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedPhone || !trimmedMessage) {
+      console.log('Validation failed - missing fields after trim:', { trimmedName: !!trimmedName, trimmedEmail: !!trimmedEmail, trimmedPhone: !!trimmedPhone, trimmedMessage: !!trimmedMessage });
+      alert("Please fill all fields correctly.");
       setIsSubmitting(false);
       return;
     }
@@ -54,7 +66,9 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
 
       if (insertError) {
         console.error('Supabase insert error:', insertError);
-        throw new Error('Failed to save enquiry.');
+        throw new Error(`Failed to save enquiry: ${insertError.message || JSON.stringify(insertError)}`);
+      } else {
+        console.log('Supabase insert result:', insertData);
       }
 
       // Send email via EmailJS
@@ -63,7 +77,13 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
         const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
         const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-        await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
+        try {
+          const emailResult = await emailjs.sendForm(serviceId, templateId, formRef.current, publicKey);
+          console.log('EmailJS send result:', emailResult);
+        } catch (emailErr) {
+          console.error('EmailJS error:', emailErr);
+          throw new Error(`Email send failed: ${emailErr instanceof Error ? emailErr.message : String(emailErr)}`);
+        }
       }
 
       console.log("Enquiry submitted:", formData);
@@ -75,7 +95,6 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
           name: "",
           email: "",
           phone: "",
-          projectTitle: "",
           message: "",
         });
         setSubmitStatus("idle");
@@ -83,7 +102,8 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
       }, 2000);
     } catch (error) {
       console.error('Submission error:', error);
-      alert('Failed to submit enquiry. Please try again.');
+      const msg = error instanceof Error ? error.message : String(error);
+      alert('Failed to submit enquiry. ' + msg);
     } finally {
       setIsSubmitting(false);
     }
@@ -200,24 +220,7 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    required
                     placeholder="+91 XXXXX XXXXX"
-                    className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
-                  />
-                </div>
-
-                {/* Project Title */}
-                <div>
-                  <label className="block text-sm font-semibold text-foreground mb-1.5">
-                    Project Title *
-                  </label>
-                  <input
-                    type="text"
-                    name="projectTitle"
-                    value={formData.projectTitle}
-                    onChange={handleChange}
-                    required
-                    placeholder="Your project name"
                     className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all text-sm"
                   />
                 </div>
@@ -231,7 +234,6 @@ const EnquiryModal = ({ isOpen, onClose, title = "Project Enquiry" }: EnquiryMod
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     placeholder="Describe your project in a few lines..."
                     rows={3}
                     className="w-full px-3 py-2.5 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none text-sm"

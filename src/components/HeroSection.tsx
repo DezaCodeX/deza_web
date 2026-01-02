@@ -3,7 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import TextReveal from "./TextReveal";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  onEnquiryClick: () => void;
+}
+
+const HeroSection = ({ onEnquiryClick }: HeroSectionProps) => {
   return (
     <section
       id="home"
@@ -114,10 +118,7 @@ const HeroSection = () => {
               variant="hero"
               size="xl"
               className="group"
-              onClick={() => {
-                const contactSection = document.getElementById("contact");
-                contactSection?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={onEnquiryClick}
             >
               Start Your Project
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
