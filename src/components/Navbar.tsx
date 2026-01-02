@@ -53,10 +53,10 @@ const Navbar = ({ onEnquiryClick }: NavbarProps) => {
           {/* Logo */}
           <a href="#home" className="flex items-center gap-3 group">
             <div className="relative">
-            <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center group-hover:shadow-glow-sm transition-shadow duration-300">
-              <img src={logo} alt="DezaCodex Logo" className="w-full h-full rounded-lg object-contain" />
-            </div>
-              <div className="absolute inset-0 rounded-lg bg-gradient-primary blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
+              <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center group-hover:shadow-glow-sm transition-shadow duration-300">
+                <img src={logo} alt="DezaCodex Logo" className="w-full h-full rounded-lg object-contain" />
+              </div>
+              <div className="absolute inset-0 rounded-lg bg-white blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
             </div>
             <span className="font-display font-bold text-xl">
               Deza<span className="text-gradient">Codex</span>

@@ -8,3 +8,5 @@
 - [x] Edit src/components/Footer.tsx: Add import for deza.png, replace "DC" span with img tag, change logo bg to white
 - [x] Update TODO.md to mark footer edit complete
 - [ ] Verify footer by checking rendering, white bg, and layout in browser
+- [x] Edit src/components/Navbar.tsx: Change logo container and hover blur bg to white
+- [x] Update TODO.md to mark navbar bg change complete
