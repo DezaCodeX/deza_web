@@ -45,21 +45,20 @@ const ProcessSection = () => {
 
       <div className="container-wide relative">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <ScrollReveal>
             <span className="text-primary font-semibold tracking-widest uppercase text-sm">
               Our Process
             </span>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">
-              How We <span className="text-gradient">Work</span>
+            <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-3 mb-4">
+              Proven Methodology for <span className="text-gradient">Digital Success</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-2xl">
-              Our proven process ensures every project is delivered with excellence,
-              on time, and exceeds expectations.
+            <p className="text-muted-foreground text-lg md:text-xl">
+              Our structured approach combines strategic planning, agile execution, and continuous optimization to deliver consistently exceptional results.
             </p>
           </ScrollReveal>
         </div>

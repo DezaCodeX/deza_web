@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import EnquiryModal from "./EnquiryModal";
 import { supabase } from "@/lib/supabaseClient";
 
-import logo from "../../../deza.png";
+import logo from "/deza.png";
 
 const Footer = () => {
   const [contactInfo, setContactInfo] = useState({
@@ -59,7 +59,7 @@ const Footer = () => {
   return (
     <footer className="bg-card/50 border-t border-border relative overflow-hidden">
       {/* CTA Section */}
-      <div className="section-padding border-b border-border">
+      <div className="py-8 border-b border-border">
         <div className="container-wide">
           <ScrollReveal>
             <motion.div 
@@ -75,11 +75,11 @@ const Footer = () => {
               <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/30 rounded-full blur-[100px]" />
               <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-accent/20 rounded-full blur-[80px]" />
 
-              <div className="relative p-12 md:p-16 lg:p-20 text-center">
-                <h2 className="section-title text-3xl md:text-4xl lg:text-5xl mb-6">
+              <div className="relative p-6 md:p-8 text-center">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl mb-4">
                   Ready to Start Your <span className="text-gradient">Project?</span>
                 </h2>
-                <p className="text-muted-foreground text-2xl max-w-2xl mx-auto mb-10">
+                <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mb-4">
                   Let's work together to create something amazing. Get in touch with
                   us today and let's discuss your next big idea.
                 </p>
@@ -99,26 +99,26 @@ const Footer = () => {
       </div>
 
       {/* Main Footer */}
-      <div className="section-padding pb-8">
+      <div className="py-8 md:py-10 pb-6">
         <div className="container-wide">
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 lg:gap-6 mb-8">
             {/* Brand */}
             <div className="col-span-2 md:col-span-4 lg:col-span-2">
-              <a href="#home" className="flex items-center gap-3 mb-6 group">
+              <a href="#home" className="flex items-center gap-2 mb-4 group">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
                     <img src={logo} alt="DezaCodex Logo" className="w-full h-full rounded-lg object-contain" />
                   </div>
                 </div>
-                <span className="font-display font-bold text-xl">
+                <span className="font-display font-bold text-base">
                   Deza<span className="text-primary">C</span>ode<span className="text-foreground">X</span>
                 </span>
               </a>
-              <p className="text-muted-foreground mb-8 max-w-sm leading-relaxed">
+              <p className="text-muted-foreground mb-4 max-w-sm text-sm leading-relaxed">
                 Crafting exceptional digital experiences that drive business growth
                 and leave lasting impressions.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 <motion.a
                   href={`mailto:${contactInfo.email}`}
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group"
@@ -147,10 +147,10 @@ const Footer = () => {
 
             {/* Company Links */}
             <div>
-              <h3 className="font-display font-semibold text-foreground mb-6">
+              <h3 className="font-display font-semibold text-foreground text-sm mb-4">
                 Company
               </h3>
-              <ul className="space-y-4">
+              <ul className="space-y-2">
                 {links.company.map((link) => (
                   <li key={link.name}>
                     <motion.a
@@ -167,10 +167,10 @@ const Footer = () => {
 
             {/* Social Links */}
             <div>
-              <h3 className="font-display font-semibold text-foreground mb-6">
+              <h3 className="font-display font-semibold text-foreground text-sm mb-4">
                 Follow Us
               </h3>
-              <ul className="space-y-4">
+              <ul className="space-y-2">
                 {socialLinks.map((link) => (
                   <li key={link.name}>
                     <motion.a
@@ -187,7 +187,7 @@ const Footer = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+          <div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-muted-foreground">
             <p>© 2025 Deza Codex. All rights reserved.</p>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import logo from "../../../deza.png";
+import logo from "/deza.png";
 
 interface NavbarProps {
   onEnquiryClick?: () => void;

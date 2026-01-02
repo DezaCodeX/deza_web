@@ -78,21 +78,20 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
 
       <div className="container-wide relative">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <ScrollReveal>
             <span className="text-primary font-semibold tracking-widest uppercase text-sm">
               Our Portfolio
             </span>
           </ScrollReveal>
           <ScrollReveal delay={0.1}>
-            <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">
+            <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-3 mb-4">
               <span className="text-gradient">Curated Creations</span>
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-2xl">
-              Take a look at some of the projects we've delivered for our clients.
-              Each project is crafted with attention to detail and excellence.
+            <p className="text-muted-foreground text-lg md:text-xl">
+              Strategic digital solutions that demonstrate our commitment to excellence, innovation, and measurable business impact across diverse industries.
             </p>
           </ScrollReveal>
         </div>
@@ -261,15 +260,6 @@ const WorkSection = ({ onEnquiryClick }: WorkSectionProps) => {
             </motion.div>
           </ScrollReveal>
         </div>
-
-        {/* CTA */}
-        <ScrollReveal delay={0.5}>
-          <div className="text-center mt-20">
-            <Button variant="heroOutline" size="lg">
-              View All Projects
-            </Button>
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );

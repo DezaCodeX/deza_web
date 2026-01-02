@@ -71,7 +71,7 @@ const StudentProjectsSection = ({ onEnquiryClick }: StudentProjectsSectionProps)
 
       <div className="container-wide relative">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-8">
           <ScrollReveal>
             <span className="text-primary font-semibold tracking-widest uppercase text-sm">
               Student Resources
@@ -163,7 +163,7 @@ const StudentProjectsSection = ({ onEnquiryClick }: StudentProjectsSectionProps)
         {/* CTA Section */}
         <ScrollReveal delay={0.5}>
           <motion.div
-            className="text-center mt-20"
+            className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
