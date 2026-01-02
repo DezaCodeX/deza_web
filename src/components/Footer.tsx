@@ -1,12 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import { motion } from "framer-motion";
 import EnquiryModal from "./EnquiryModal";
+import { supabase } from "@/lib/supabaseClient";
 
 const Footer = () => {
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    email: "hello@dezacodex.in",
+    phone: "+91 98765 43210",
+    location: "India"
+  });
+
+  useEffect(() => {
+    async function fetchContact() {
+      const { data, error } = await supabase
+        .from('contact')
+        .select('email, phone, location')
+        .single();  // Assuming one contact row
+
+      if (error) {
+        console.error('Error fetching contact info:', error);
+      } else if (data) {
+        setContactInfo({
+          email: data.email || contactInfo.email,
+          phone: data.phone || contactInfo.phone,
+          location: data.location || contactInfo.location
+        });
+      }
+    }
+    fetchContact();
+  }, []);
 
   const links = {
     company: [
@@ -87,27 +113,27 @@ const Footer = () => {
               </p>
               <div className="space-y-4">
                 <motion.a
-                  href="mailto:hello@dezacodex.in"
+                  href={`mailto:${contactInfo.email}`}
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors group"
                   whileHover={{ x: 5 }}
                 >
                   <Mail className="w-5 h-5" />
-                  hello@dezacodex.in
+                  {contactInfo.email}
                 </motion.a>
                 <motion.a
-                  href="tel:+919876543210"
+                  href={`tel:${contactInfo.phone}`}
                   className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
                   whileHover={{ x: 5 }}
                 >
                   <Phone className="w-5 h-5" />
-                  +91 98765 43210
+                  {contactInfo.phone}
                 </motion.a>
                 <motion.div 
                   className="flex items-center gap-3 text-muted-foreground"
                   whileHover={{ x: 5 }}
                 >
                   <MapPin className="w-5 h-5" />
-                  India
+                  {contactInfo.location}
                 </motion.div>
               </div>
             </div>
