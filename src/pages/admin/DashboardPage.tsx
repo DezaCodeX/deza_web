@@ -8,22 +8,49 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2 } from "lucide-react";
+import { Loader2, CheckCircle, XCircle } from "lucide-react";
+import { Button as UIButton } from "@/components/ui/button";
 
 interface Enquiry {
   id: string;
   name: string;
   email: string;
   phone: string;
-  projectTitle: string;
+  project_title?: string;
   message: string;
   created_at: string;
+  contacted?: boolean;
 }
 
 const DashboardPage = () => {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleToggleContacted = async (id: string, currentContacted: boolean) => {
+    // Optimistic update
+    setEnquiries(prev =>
+      prev.map(enquiry =>
+        enquiry.id === id ? { ...enquiry, contacted: !currentContacted } : enquiry
+      )
+    );
+
+    const { error: updateError } = await supabase
+      .from('enquiries')
+      .update({ contacted: !currentContacted })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Error updating contacted status:', updateError);
+      // Revert optimistic update
+      setEnquiries(prev =>
+        prev.map(enquiry =>
+          enquiry.id === id ? { ...enquiry, contacted: currentContacted } : enquiry
+        )
+      );
+      setError('Failed to update contacted status.');
+    }
+  };
 
   useEffect(() => {
     const fetchEnquiries = async () => {
@@ -76,32 +103,48 @@ const DashboardPage = () => {
         {enquiries.length === 0 ? (
           <p className="text-muted-foreground">No enquiries yet.</p>
         ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Project Title</TableHead>
-                <TableHead>Message</TableHead>
-                <TableHead>Submitted At</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {enquiries.map((enquiry) => (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Project Title</TableHead>
+              <TableHead>Message</TableHead>
+              <TableHead>Submitted At</TableHead>
+              <TableHead>Contacted</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {enquiries.map((enquiry) => (
                 <TableRow key={enquiry.id}>
                   <TableCell className="font-medium">{enquiry.name}</TableCell>
                   <TableCell>{enquiry.email}</TableCell>
                   <TableCell>{enquiry.phone}</TableCell>
-                  <TableCell>{enquiry.projectTitle}</TableCell>
+                  <TableCell>{enquiry.project_title || 'N/A'}</TableCell>
                   <TableCell className="max-w-md truncate">{enquiry.message}</TableCell>
                   <TableCell>
                     {new Date(enquiry.created_at).toLocaleDateString()}
                   </TableCell>
+                  <TableCell className="flex items-center gap-2">
+                    {enquiry.contacted ? (
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                    ) : (
+                      <XCircle className="h-4 w-4 text-destructive" />
+                    )}
+                    <UIButton
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleToggleContacted(enquiry.id, !!enquiry.contacted)}
+                      className="h-6 w-6 p-0"
+                    >
+                      <CheckCircle className="h-3 w-3" />
+                    </UIButton>
+                  </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+            ))}
+          </TableBody>
+        </Table>
         )}
       </div>
     </div>
