@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import EnquiryModal from "./EnquiryModal";
 import { supabase } from "@/lib/supabaseClient";
 
+import logo from "../../../deza.png";
+
 const Footer = () => {
   const [contactInfo, setContactInfo] = useState({
     email: "hello@dezacodex.in",
@@ -104,8 +106,8 @@ const Footer = () => {
             <div className="col-span-2 md:col-span-4 lg:col-span-2">
               <a href="#home" className="flex items-center gap-3 mb-6 group">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-                    <span className="text-background font-display font-bold text-xl">DC</span>
+                  <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center">
+                    <img src={logo} alt="DezaCodex Logo" className="w-full h-full rounded-lg object-contain" />
                   </div>
                 </div>
                 <span className="font-display font-bold text-xl">
