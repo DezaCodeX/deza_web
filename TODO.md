@@ -1,19 +1,15 @@
-# Task: Add Status column (Resolved/Unresolved badges) and filter dropdown (Newest/Unresolved/Resolved) to admin dashboard
+# Task: Enhance admin panel with sidebar for Requests and Projects
 
 ## Steps to Complete
 
-- [ ] Import Badge from "@/components/ui/badge" and Select components (Select, SelectContent, SelectItem, SelectTrigger, SelectValue) from "@/components/ui/select" in DashboardPage.tsx.
-- [ ] Add state: const [filter, setFilter] = useState<'newest' | 'unresolved' | 'resolved'>('newest');.
-- [ ] Update fetchEnquiries function: Always include .order('created_at', { ascending: false }); If filter === 'unresolved', add .eq('contacted', false); If filter === 'resolved', add .eq('contacted', true); For 'newest', no eq (all enquiries).
-- [ ] Update useEffect dependency to [filter] to refetch on filter change.
-- [ ] After <h2>Recent Enquiries ({enquiries.length})</h2>, add a filter section: <div className="flex items-center gap-2"> <label>Filter by:</label> <Select value={filter} onValueChange={(value) => setFilter(value as typeof filter)}> <SelectTrigger className="w-[180px]"> <SelectValue placeholder="Newest" /> </SelectTrigger> <SelectContent> <SelectItem value="newest">Newest</SelectItem> <SelectItem value="unresolved">Unresolved</SelectItem> <SelectItem value="resolved">Resolved</SelectItem> </SelectContent> </Select> </div>.
-- [ ] Update TableHeader: Insert <TableHead>Status</TableHead> after Phone TableHead, before View Details.
-- [ ] In TableBody rows: Insert Status TableCell after Phone TableCell: <TableCell><Badge variant={enquiry.contacted ? "default" : "secondary"}>{enquiry.contacted ? 'Resolved' : 'Unresolved'}</Badge></TableCell>.
-- [ ] In handleToggleContacted, after successful update, optionally refetchEnquiries() to ensure filter view updates, but optimistic state change should reflect in badges immediately.
-- [ ] Test: Log in, load dashboard (default Newest shows all), switch filters (Unresolved/Resolved show filtered results ordered newest), status badges display correctly (default green for Resolved, secondary for Unresolved), toggle in modal updates badge and filter results dynamically, no errors in console.
+- [ ] Read src/App.tsx to understand current routing structure (e.g., /admin/* under AdminLayout with Outlet).
+- [ ] Update src/components/admin/AdminLayout.tsx: Change sidebar nav from "Dashboard" to "Requests" (link to /admin/requests or /admin/dashboard), add "Projects" below (link to /admin/projects). Use NavLink for active states if possible, or simple <a> with hover.
+- [ ] Create src/pages/admin/ProjectsPage.tsx: Similar to DashboardPage, fetch from Supabase 'projects' table (select *, order by created_at desc), display in Table with columns: Title, Description, Status (Badge: Active/Inactive or similar), Created At. Include loading, error, empty states. No modal/actions yet (stub for future).
+- [ ] If needed, update src/App.tsx: Add route <Route path="/admin/projects" element={<ProjectsPage />} /> under admin routes (assuming nested under AdminLayout Outlet).
+- [ ] Test: Log in, navigate to /admin/dashboard (Requests), verify enquiries; navigate to /admin/projects, verify table loads (empty if no data), no 404, sidebar links work, active highlighting.
 
 ## Follow-up
-- Ensure Supabase RLS allows filtered SELECT (existing policy should cover).
-- If needed, add loading spinner during filter refetch.
-- Remove debugging console logs in fetchEnquiries once confirmed working.
-- If badge colors need adjustment (e.g., red for Unresolved), iterate based on feedback.
+- If 'projects' table doesn't exist in Supabase, create it via SQL Editor (example: CREATE TABLE projects (id uuid DEFAULT gen_random_uuid() PRIMARY KEY, title text, description text, status boolean DEFAULT false, created_at timestamp DEFAULT now());). Insert sample data if needed.
+- Enhance ProjectsPage with modal, toggle status, delete similar to DashboardPage based on feedback.
+- Style sidebar to match image (deza01.png): Add icons (e.g., from lucide-react: MessageCircle for Requests, Folder for Projects), adjust colors/padding if specified.
+- Remove debugging console logs once confirmed.
