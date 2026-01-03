@@ -23,7 +23,7 @@ const LoginPage = () => {
         password,
       });
       if (error) throw error;
-      navigate("/admin");
+      navigate("/admin/dashboard");
     } catch (error: any) {
       setError(error.message);
     } finally {
