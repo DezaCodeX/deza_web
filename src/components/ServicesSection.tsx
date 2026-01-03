@@ -1,5 +1,4 @@
 import { Code, Palette, Smartphone, ArrowUpRight, X } from "lucide-react";
-import ScrollReveal from "./ScrollReveal";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 
@@ -10,158 +9,175 @@ const ServicesSection = () => {
     {
       icon: Code,
       title: "Web Development",
-      description: "Scalable web solutions engineered for performance and conversion.",
-      details: "We architect and develop enterprise-grade web applications leveraging cutting-edge technologies including React, Next.js, Node.js, and TypeScript. Our solutions are optimized for speed, accessibility, and SEO, ensuring maximum reach and engagement. Every project includes comprehensive testing, security hardening, and deployment automation for production-ready applications.",
+      description:
+        "Scalable web solutions engineered for performance and conversion.",
+      details: `
+We design and develop scalable, secure, and high-performance web applications aligned with modern business needs. Our development approach focuses on clean architecture, modular components, and long-term scalability.
+
+From simple websites to complex enterprise dashboards, we ensure fast load times, SEO optimization, and seamless user experiences across all devices. Every solution follows industry best practices for security, performance monitoring, and maintainability.
+      `,
+      bullets: [
+        "Scalable and future-ready application architecture",
+        "SEO-friendly and performance-optimized websites",
+        "Secure coding practices and data protection",
+        "Cross-browser and cross-device compatibility",
+        "Easy maintenance and long-term support",
+      ],
       gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: Palette,
       title: "UI/UX Design",
-      description: "Strategic design systems that drive user engagement and business growth.",
-      details: "Our design methodology combines user research, wireframing, and iterative prototyping to create intuitive interfaces. We develop comprehensive design systems and component libraries that ensure consistency, maintainability, and scalability. Every design decision is grounded in user behavior analytics and conversion optimization principles.",
+      description:
+        "Strategic design systems that drive user engagement and business growth.",
+      details: `
+Our UI/UX design process is driven by user behavior, usability principles, and business goals. We transform complex ideas into intuitive, visually appealing interfaces that are easy to use and navigate.
+
+We focus on creating consistent design systems, reusable components, and meaningful interactions that enhance user satisfaction and brand identity.
+      `,
+      bullets: [
+        "User-centered and research-driven design approach",
+        "Clean, modern, and consistent visual designs",
+        "Scalable design systems and UI components",
+        "Accessibility and usability-focused layouts",
+        "Improved user engagement and retention",
+      ],
       gradient: "from-purple-500 to-pink-500",
     },
     {
       icon: Smartphone,
       title: "App Development",
-      description: "Native and cross-platform mobile applications with enterprise reliability.",
-      details: "We deliver high-performance mobile applications for iOS and Android using React Native, Flutter, and native frameworks. Our development process includes comprehensive testing, performance optimization, and app store deployment expertise. Applications are built with offline capabilities, real-time synchronization, and seamless platform integration.",
+      description:
+        "Native and cross-platform mobile applications with enterprise reliability.",
+      details: `
+We build reliable, high-performance mobile applications for Android and iOS platforms. Our apps are designed to deliver smooth user experiences with offline capabilities and real-time data synchronization.
+
+By using modern frameworks and native technologies, we ensure optimal performance, secure data handling, and seamless backend integration.
+      `,
+      bullets: [
+        "Native and cross-platform mobile applications",
+        "High performance with smooth user interactions",
+        "Offline access and real-time data synchronization",
+        "Secure API and backend integrations",
+        "Scalable architecture for future growth",
+      ],
       gradient: "from-orange-500 to-red-500",
     },
   ];
 
   return (
-    <section id="services" className="section-padding bg-card/30 relative">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--primary)) 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
-
-      <div className="container-wide relative">
+    <section id="services" className="relative py-24 bg-card/30">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8">
-          <ScrollReveal>
-            <span className="text-primary font-semibold tracking-widest uppercase text-sm">
-              What We Provide
-            </span>
-          </ScrollReveal>
-          <ScrollReveal delay={0.1}>
-            <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-3 mb-4">
-              Services That <span className="text-gradient">Elevate</span> Your Business
-            </h2>
-          </ScrollReveal>
-          <ScrollReveal delay={0.2}>
-            <p className="text-muted-foreground text-lg md:text-xl">
-              Comprehensive digital solutions engineered for measurable business impact and sustainable growth.
-            </p>
-          </ScrollReveal>
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="text-primary font-semibold uppercase tracking-widest text-sm">
+            What We Provide
+          </span>
+          <h2 className="text-5xl font-bold mt-4 mb-6">
+            Services That <span className="text-gradient">Elevate</span> Your
+            Business
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Comprehensive digital solutions designed for real-world impact and
+            sustainable growth.
+          </p>
         </div>
 
-        {/* Services Grid */}
+        {/* Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ScrollReveal key={index} delay={0.1 * index}>
+          {services.map((service, index) => {
+            const Icon = service.icon;
+
+            return (
               <motion.div
-                className="group relative h-full"
-                whileHover={{ y: -10 }}
-                transition={{ duration: 0.3 }}
+                key={index}
+                whileHover={{ y: -8 }}
+                className="relative bg-card border border-border rounded-2xl p-8 flex flex-col overflow-hidden"
               >
-                <div className="relative h-full bg-card rounded-2xl p-8 border border-border overflow-hidden transition-all duration-500 hover:border-primary/50 hover:shadow-glow-sm">
-                  {/* Gradient Background on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                  
-                  {/* Icon */}
-                  <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-lg transition-all duration-300`}>
-                    {(() => {
-                      const IconComponent = service.icon;
-                      return <IconComponent className="w-8 h-8 text-white" />;
-                    })()}
+                {/* Overlay */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 hover:opacity-5 transition-opacity pointer-events-none`}
+                />
+
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full">
+                  <div
+                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center mb-6`}
+                  >
+                    <Icon className="w-8 h-8 text-white" />
                   </div>
 
-                  {/* Content */}
-                  <h3 className="text-2xl font-display font-bold text-foreground mb-4">
+                  <h3 className="text-2xl font-bold mb-4">
                     {service.title}
                   </h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+
+                  <p className="text-muted-foreground mb-6">
                     {service.description}
                   </p>
 
-                  {/* Learn More Button */}
                   <button
+                    type="button"
                     onClick={() => setSelectedService(index)}
-                    className="inline-flex items-center gap-2 text-primary font-semibold group/link hover:gap-3 transition-all"
+                    className="mt-auto inline-flex items-center gap-2 text-primary font-semibold cursor-pointer"
                   >
                     Learn More
-                    <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+                    <ArrowUpRight className="w-4 h-4 transition-transform hover:translate-x-1 hover:-translate-y-1" />
                   </button>
                 </div>
               </motion.div>
-            </ScrollReveal>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Service Details Modal */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedService !== null && (
           <>
             <motion.div
+              className="fixed inset-0 bg-black/60 z-40"
+              onClick={() => setSelectedService(null)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setSelectedService(null)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
             />
+
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.3 }}
               className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
             >
-              <motion.div
-                className="bg-card border border-border rounded-2xl shadow-2xl max-w-2xl w-full relative overflow-hidden"
+              <div
+                className="bg-card border border-border rounded-2xl max-w-2xl w-full relative p-8"
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* Close Button */}
                 <button
                   onClick={() => setSelectedService(null)}
-                  className="absolute top-6 right-6 text-muted-foreground hover:text-foreground transition-colors p-2 z-10"
+                  className="absolute top-5 right-5"
                 >
-                  <X size={24} />
+                  <X />
                 </button>
 
-                {/* Header */}
-                <div className={`bg-gradient-to-r ${services[selectedService!].gradient} p-8`}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-sm">
-                      {(() => {
-                        const IconComponent = services[selectedService!].icon;
-                        return <IconComponent className="w-8 h-8 text-white" />;
-                      })()}
-                    </div>
-                    <h2 className="text-3xl font-display font-bold text-white">
-                      {services[selectedService!].title}
-                    </h2>
-                  </div>
-                </div>
+                <h2 className="text-3xl font-bold mb-4">
+                  {services[selectedService].title}
+                </h2>
 
-                {/* Content */}
-                <div className="p-8 space-y-6">
-                  <p className="text-muted-foreground text-lg leading-relaxed">
-                    {services[selectedService!].description}
-                  </p>
-                  <div className="border-t border-border pt-6">
-                    <h3 className="text-xl font-semibold text-foreground mb-4">Details</h3>
-                    <p className="text-muted-foreground leading-relaxed">
-                      {services[selectedService!].details}
-                    </p>
-                  </div>
+                <p className="text-muted-foreground text-lg leading-relaxed mb-6 whitespace-pre-line">
+                  {services[selectedService].details}
+                </p>
+
+                <div className="border-t border-border pt-6">
+                  <h3 className="text-xl font-semibold mb-4">
+                    What You Get
+                  </h3>
+                  <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                    {services[selectedService].bullets.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
                 </div>
-              </motion.div>
+              </div>
             </motion.div>
           </>
         )}
