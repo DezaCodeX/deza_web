@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +33,7 @@ const ProtectedRoute = () => {
     return <div>Loading...</div>; // Or a spinner component
   }
 
-  return session ? <Outlet /> : <Navigate to="/login" />;
+  return session ? <>{children}</> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
