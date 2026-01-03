@@ -50,15 +50,14 @@ const FAQSection = ({}: FAQSectionProps) => {
               </span>
             </ScrollReveal>
             <ScrollReveal delay={0.1}>
-              <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">
-                Contact
-                <span className="text-gradient"> Us</span>
+              <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-3 mb-4">
+                Let's Discuss Your
+                <span className="text-gradient"> Digital Vision</span>
               </h2>
             </ScrollReveal>
             <ScrollReveal delay={0.2}>
-              <p className="text-muted-foreground text-2xl mb-10">
-                Have a project in mind? We'd love to hear from you. Get in touch
-                with us and let's discuss how we can help bring your ideas to life.
+              <p className="text-muted-foreground text-lg md:text-xl mb-8">
+                Ready to elevate your digital presence? Reach out to our team to explore how we can drive your business forward.
               </p>
             </ScrollReveal>
 

@@ -100,11 +100,9 @@ const HeroSection = ({ onEnquiryClick }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6 }}
-            className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto mb-12 px-6 md:px-4"
+            className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 px-6 md:px-4"
           >
-            We build stunning, high-performance websites that captivate your
-            audience and drive business growth. From concept to launch, we're
-            your digital partners.
+            We architect digital solutions that transform business vision into measurable competitive advantage. From conception to deployment, we deliver excellence.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -112,7 +110,7 @@ const HeroSection = ({ onEnquiryClick }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
           >
             <Button
               variant="hero"

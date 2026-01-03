@@ -38,18 +38,15 @@ const AboutSection = () => {
             </ScrollReveal>
             
             <ScrollReveal delay={0.1}>
-              <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-4 mb-6">
-                We Build Websites That
-                <span className="text-gradient"> Drive Results</span>
+              <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mt-3 mb-4">
+                Building Digital Excellence for
+                <span className="text-gradient"> Market Leaders</span>
               </h2>
             </ScrollReveal>
             
             <ScrollReveal delay={0.2}>
-              <p className="text-muted-foreground text-2xl mb-10 leading-relaxed">
-                At <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-foreground font-bold">X</span>, we believe every business deserves a powerful online
-                presence. Our team of passionate developers and designers work
-                together to create digital experiences that not only look stunning
-                but also perform exceptionally.
+              <p className="text-muted-foreground text-lg md:text-xl mb-8 leading-relaxed">
+                At <span className="text-primary font-bold">D</span>eza<span className="text-primary font-bold">C</span>ode<span className="text-foreground font-bold">X</span>, we partner with forward-thinking businesses to architect digital solutions that drive competitive advantage. Our multidisciplinary team combines strategic thinking, technical expertise, and design excellence to deliver transformative digital experiences.
               </p>
             </ScrollReveal>
 
