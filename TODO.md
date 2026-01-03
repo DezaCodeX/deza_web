@@ -1,12 +1,7 @@
-# TODO: Integrate Deza.png Logo in Navbar and Footer
+# TODO: Enhance Admin Enquiries Page
 
 ## Steps:
-- [x] Create TODO.md with steps
-- [x] Edit src/components/Navbar.tsx: Add import for deza.png and replace "DC" span with img tag
-- [x] Update TODO.md to mark navbar edit complete
-- [ ] Verify navbar by running `npm run dev` and checking the navbar in browser
-- [x] Edit src/components/Footer.tsx: Add import for deza.png, replace "DC" span with img tag, change logo bg to white
-- [x] Update TODO.md to mark footer edit complete
-- [ ] Verify footer by checking rendering, white bg, and layout in browser
-- [x] Edit src/components/Navbar.tsx: Change logo container and hover blur bg to white
-- [x] Update TODO.md to mark navbar bg change complete
+- [ ] Add 'contacted' boolean column (default false) to Supabase 'enquiries' table (user action via Supabase dashboard).
+- [x] Update src/pages/admin/DashboardPage.tsx: Add 'contacted' field to interface, fetch it in query, add 'Contacted' column with status icon, add toggle button to update contacted status.
+- [x] Add routing in src/App.tsx for /admin/dashboard with ProtectedRoute.
+- [x] Verify changes: Run dev server, navigate to admin dashboard, check display and test toggle functionality.
